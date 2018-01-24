@@ -57,7 +57,7 @@ explorer
 
     const mergedConfig = tidyConfig({
       ...fileConfig,
-      ...packageConfig.config,
+      ...(packageConfig || { config: {} }).config,
       ...argv
     });
 
