@@ -1,0 +1,14 @@
+# `yarn` has its own opinions on `package.json`, so `prettier` should ignore it
+package.json
+
+# Generator templates, which aren't valid JS until compiled
+templates
+
+# Non-committed directories
+node_modules
+coverage
+dist
+lib
+
+# Generated Markdown files
+CHANGELOG.md

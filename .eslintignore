@@ -1,0 +1,14 @@
+# dependencies
+node_modules
+
+# testing
+coverage
+
+# production artifacts
+build
+dist
+lib
+
+# non-lintable JS/JSON
+/packages/generator-*/app/templates
+/packages/generator-*/generators/app/templates
