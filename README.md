@@ -1,4 +1,4 @@
-# story2sketch 🐉 💎
+# story2sketch 💎
 
 Quickly convert your [Storybook](https://storybook.js.org) stories into [Sketch](https://www.sketchapp.com) symbols.
 
