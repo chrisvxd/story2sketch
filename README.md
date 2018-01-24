@@ -47,7 +47,7 @@ Success!
 
 As stated by [`react-sketchapp`](https://github.com/airbnb/react-sketchapp), it's complicated to manage assets in a design system. Many teams building design systems or component libraries already produce Sketch files for distributing designs and use [Storybook](https://storybook.js.org) to prototype and present the developed components. It can become difficult to keep designs up to date with the latest components, with designers ever playing catchup. `story2sketch` generates a Sketch file from your components via Storybook, so your Sketch designs always stay up to date.
 
-<a id="configuration" />
+<a name="configuration"><a/>
 ## Configuration
 
 You can configure `story2sketch` using [the API](#api) via the CLI, configuring your `package.json` or adding a `story2sketch.config.js` file.
@@ -85,7 +85,7 @@ module.exports = {
 }
 ```
 
-<a id="api" />
+<a name="api"><a/>
 ## API
 
 | Parameter            | Explanation                                                                                           | Input Type    | Default                             |
@@ -146,7 +146,7 @@ module.exports = {
 ```
 
 
-<a id="questions" />
+<a name="questions"><a/>
 ## Questions
 
 ### Why does my stuff look bad?
