@@ -1,6 +1,6 @@
 # story2sketch 💎
 
-Quickly convert your [Storybook](https://storybook.js.org) stories into [Sketch](https://www.sketchapp.com) symbols.
+Convert [Storybook](https://storybook.js.org) stories into [Sketch](https://www.sketchapp.com) symbols.
 
 > Uses the amazing and experimental [`html-sketchapp`](https://github.com/brainly/html-sketchapp). Only supports web.
 
