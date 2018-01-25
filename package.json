@@ -13,6 +13,9 @@
   },
   "main": "lib/server/index.js",
   "bin": "./lib/server/index.js",
+  "files": [
+    "lib/"
+  ],
   "scripts": {
     "cz": "git-cz",
     "format": "yarn run internal:prettier --write",
