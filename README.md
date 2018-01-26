@@ -6,11 +6,7 @@ Convert [Storybook](https://storybook.js.org) stories into [Sketch](https://www.
 
 ## Quickstart
 
-Firstly, get [Sketch](https://sketchapp.com) and [npm](https://nodejs.org/en/download/). Then clone [`html-sketchapp`](https://github.com/brainly/html-sketchapp) and install the Sketch plugin:
-
-```sh
-git clone https://github.com/brainly/html-sketchapp.git
-```
+Firstly, get [Sketch](https://sketchapp.com) and [npm](https://nodejs.org/en/download/). Then either clone [`html-sketchapp`](https://github.com/brainly/html-sketchapp) or download it [as a zip](https://github.com/brainly/html-sketchapp/archive/master.zip), installing the included Sketch plugin called `asketch2sketch.sketchplugin`:
 
 <img src="https://i.imgur.com/9eDm6NQ.png" width="450" alt="Installing Sketch plugin" title="Installing Sketch plugin" />
 
@@ -31,10 +27,10 @@ module.exports = {
 
 ```
 
-Run story2sketch. See [configuration](#configuration) if you have a lot of stories.
+Run story2sketch, pointing towards a Storybook iframe URL. See [configuration](#configuration) for more options, or if you have a lot of stories.
 
 ```sh
-story2sketch
+story2sketch --url https://localhost:9001/iframe.html --output stories.asketch.json
 ```
 
 Import the generated file into Sketch via `Plugins > From *Almost* Sketch to Sketch` in Sketch menu bar.
