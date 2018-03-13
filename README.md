@@ -16,15 +16,20 @@ Install `story2sketch`:
 npm i story2sketch -g
 ```
 
-Now navigate to your Storybook 3.3 (or newer) project. You'll want to [extend your Storybook webpack.config.js](https://storybook.js.org/configurations/custom-webpack-config/#extend-mode) if you haven't already done so, adding:
+Now navigate to your Storybook 3.3 (or newer) project. You'll want to [take full control of your Storybook webpack.config.js](https://storybook.js.org/configurations/custom-webpack-config/#full-control-mode) if you haven't already done so, adding:
 
 ```js
-module.exports = {
-  output: {
-    library: "[name]"
-  }
-};
+module.exports = (storybookBaseConfig, configType) => {
+  const newConfig = {
+    ...storybookBaseConfig
+  };
 
+  // Add this:
+  // Export bundles as libraries so we can access them on page scope.
+  newConfig.output.library = "[name]";
+
+  return newConfig;
+}
 ```
 
 Run story2sketch, pointing towards a Storybook iframe URL. See [configuration](#configuration) for more options, or if you have a lot of stories.
