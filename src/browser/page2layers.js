@@ -1,8 +1,8 @@
-import Page from "html-sketchapp/html2asketch/page.js";
-import Symbol from "html-sketchapp/html2asketch/symbolMaster.js";
-import nodeToSketchLayers from "html-sketchapp/html2asketch/nodeToSketchLayers.js";
+import Page from "@brainly/html-sketchapp/html2asketch/page.js";
+import Symbol from "@brainly/html-sketchapp/html2asketch/symbolMaster.js";
+import nodeToSketchLayers from "@brainly/html-sketchapp/html2asketch/nodeToSketchLayers.js";
 
-export const getSymbol = async ({
+export const getSymbol = ({
   name = "symbol",
   x = 0,
   y = 0,
@@ -16,13 +16,11 @@ export const getSymbol = async ({
     nodes = document.querySelectorAll(querySelector);
   }
 
-  const waitingForLayers = Array.from(nodes).map(nodeToSketchLayers);
+  const layers = Array.from(nodes).map(nodeToSketchLayers);
 
   const symbol = new Symbol({ x, y });
 
   symbol.setName(name);
-
-  const layers = await Promise.all(waitingForLayers);
 
   layers
     .reduce((prev, current) => prev.concat(current), []) // single node can produce multiple layers - concatenate them
