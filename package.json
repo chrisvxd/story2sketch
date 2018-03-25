@@ -47,10 +47,10 @@
     }
   },
   "dependencies": {
+    "@brainly/html-sketchapp": "^2.0.0",
     "chalk": "^2.3.0",
     "cosmiconfig": "^4.0.0",
     "find-up": "^2.1.0",
-    "html-sketchapp": "github:brainly/html-sketchapp#413c5a16c9f9f74bab9228f8bf1532d32676f628",
     "mock-require": "^3.0.1",
     "progress": "^2.0.0",
     "puppeteer": "^1.0.0",

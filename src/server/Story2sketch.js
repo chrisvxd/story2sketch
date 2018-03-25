@@ -180,17 +180,19 @@ export default class Story2sketch {
     // https://github.com/GoogleChrome/puppeteer/issues/1510 was fixed, but
     // it still results in better performance.
     const narrowSymbolJson = await page.evaluate(`
-      page2layers
-      .getSymbol(${narrowParams})
-      .then(result => JSON.stringify(result))
+      JSON.stringify(
+        page2layers
+        .getSymbol(${narrowParams})
+      );
     `);
 
     await page.setViewport(this.standardViewport);
 
     const standardSymbolJson = await page.evaluate(`
-      page2layers
-      .getSymbol(${standardParams})
-      .then(result => JSON.stringify(result))
+      JSON.stringify(
+        page2layers
+        .getSymbol(${narrowParams})
+      );
     `);
 
     const narrowSymbol = JSON.parse(narrowSymbolJson);
