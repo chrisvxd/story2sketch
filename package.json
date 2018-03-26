@@ -27,7 +27,8 @@
     "lint:format": "yarn run internal:prettier --list-different",
     "precompile": "if [ ${SKIP_CLEANUP:-0} -ne 1 ]; then rimraf lib/*; fi",
     "compile": "babel src -d lib --ignore page2layers.js --copy-files && webpack && chmod +x lib/server/index.js",
-    "prepublishOnly": "yarn compile"
+    "prepublishOnly": "yarn compile",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
   },
   "babel": {
     "presets": [
@@ -71,6 +72,7 @@
     "babel-preset-es2016": "^6.22.0",
     "babel-preset-es2017": "^6.22.0",
     "commitizen": "^2.9.6",
+    "conventional-changelog-cli": "^1.3.17",
     "eslint": "^3.8.1",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-json": "~1.2.0",
