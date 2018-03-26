@@ -1,5 +1,15 @@
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/chrisvxd/story2sketch/compare/v0.2.0...v0.2.1) (2018-03-26)
+
+
+### Bug Fixes
+
+* ensure standard viewport output uses correct emoji ([fb4ab18](https://github.com/chrisvxd/story2sketch/commit/fb4ab18))
+
+
+
 <a name="0.2.0"></a>
-# [0.2.0](https://github.com/chrisvxd/story2sketch/compare/0.1.4...0.2.0) (2018-03-26)
+# [0.2.0](https://github.com/chrisvxd/story2sketch/compare/0.1.4...v0.2.0) (2018-03-26)
 
 
 ### Features
