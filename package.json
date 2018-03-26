@@ -17,6 +17,7 @@
     "lib/"
   ],
   "scripts": {
+    "compile": "babel src -d lib --ignore page2layers.js --copy-files && webpack && chmod +x lib/server/index.js",
     "cz": "git-cz",
     "format": "yarn run internal:prettier --write",
     "internal:prettier": "prettier \"./*.{js,json,md}\" \"./**/*.{js,json,md}\"",
@@ -26,7 +27,6 @@
     "lint:md": "remark --quiet --frail .",
     "lint:format": "yarn run internal:prettier --list-different",
     "precompile": "if [ ${SKIP_CLEANUP:-0} -ne 1 ]; then rimraf lib/*; fi",
-    "compile": "babel src -d lib --ignore page2layers.js --copy-files && webpack && chmod +x lib/server/index.js",
     "prepublishOnly": "yarn compile",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
   },
