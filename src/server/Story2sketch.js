@@ -191,7 +191,7 @@ export default class Story2sketch {
     const standardSymbolJson = await page.evaluate(`
       JSON.stringify(
         page2layers
-        .getSymbol(${narrowParams})
+        .getSymbol(${standardParams})
       );
     `);
 
