@@ -1,6 +1,8 @@
-import Page from "@brainly/html-sketchapp/html2asketch/page.js";
-import Symbol from "@brainly/html-sketchapp/html2asketch/symbolMaster.js";
-import nodeToSketchLayers from "@brainly/html-sketchapp/html2asketch/nodeToSketchLayers.js";
+import {
+  Page,
+  SymbolMaster,
+  nodeToSketchLayers
+} from "@brainly/html-sketchapp";
 
 export const getSymbol = ({
   name = "symbol",
@@ -18,7 +20,7 @@ export const getSymbol = ({
 
   const layers = Array.from(nodes).map(nodeToSketchLayers);
 
-  const symbol = new Symbol({ x, y });
+  const symbol = new SymbolMaster({ x, y });
 
   symbol.setName(name);
 
