@@ -1,7 +1,7 @@
 import {
   Page,
   SymbolMaster,
-  nodeToSketchLayers
+  nodeTreeToSketchGroup
 } from "@brainly/html-sketchapp";
 
 export const getSymbol = ({
@@ -13,22 +13,17 @@ export const getSymbol = ({
   let nodes;
 
   if (querySelector === "*") {
-    nodes = document.querySelectorAll("*");
+    nodes = document.querySelector("#root").firstChild;
   } else {
-    nodes = document.querySelectorAll(querySelector);
+    nodes = document.querySelector(querySelector);
   }
 
-  const layers = Array.from(nodes).map(nodeToSketchLayers);
+  const layer = nodeTreeToSketchGroup(nodes);
 
   const symbol = new SymbolMaster({ x, y });
 
   symbol.setName(name);
-
-  layers
-    .reduce((prev, current) => prev.concat(current), []) // single node can produce multiple layers - concatenate them
-    .forEach(layer => {
-      symbol.addLayer(layer);
-    });
+  symbol.addLayer(layer);
 
   return symbol.toJSON();
 };
