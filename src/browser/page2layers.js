@@ -4,6 +4,9 @@ import {
   nodeTreeToSketchGroup
 } from "@brainly/html-sketchapp";
 
+const getNodeName = node =>
+  node.id || node.className || node.nodeName.toLowerCase();
+
 export const getSymbol = ({
   name = "symbol",
   x = 0,
@@ -18,7 +21,10 @@ export const getSymbol = ({
     nodes = document.querySelector(querySelector);
   }
 
-  const layer = nodeTreeToSketchGroup(nodes);
+  const layer = nodeTreeToSketchGroup(nodes, {
+    getGroupName: getNodeName,
+    getRectangleName: getNodeName
+  });
 
   const symbol = new SymbolMaster({ x, y });
 
