@@ -1,3 +1,15 @@
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/chrisvxd/story2sketch/compare/v0.2.1...v0.3.0) (2018-04-24)
+
+
+### Features
+
+* generate layer name based on id, class or node type ([008dd16](https://github.com/chrisvxd/story2sketch/commit/008dd16))
+* group Sketch layers based on DOM tree ([0c3947d](https://github.com/chrisvxd/story2sketch/commit/0c3947d))
+* upgrade to html-sketchapp@3.0.2 ([07375cb](https://github.com/chrisvxd/story2sketch/commit/07375cb))
+
+
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/chrisvxd/story2sketch/compare/v0.2.0...v0.2.1) (2018-03-26)
 
