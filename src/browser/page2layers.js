@@ -11,12 +11,12 @@ export const getSymbol = ({
   name = "symbol",
   x = 0,
   y = 0,
-  querySelector = "*"
+  querySelector = "#root"
 } = {}) => {
   let nodes;
 
-  if (querySelector === "*") {
-    nodes = document.querySelector("#root").firstChild;
+  if (querySelector === "#root") {
+    nodes = document.querySelector(querySelector).firstChild;
   } else {
     nodes = document.querySelector(querySelector);
   }
