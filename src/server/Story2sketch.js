@@ -23,7 +23,7 @@ export default class Story2sketch {
     symbolGutter = defaultSymbolGutter,
     narrowViewport = defaultNarrowViewport,
     standardViewport = defaultStandardViewport,
-    querySelector = "*",
+    querySelector = "#root",
     verbose = false,
     stories
   }) {

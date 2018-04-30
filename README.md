@@ -109,7 +109,7 @@ module.exports = {
 | `--symbolGutter`     | Gutter to place between symbols in Sketch.                                                            | integer       | 100                                 |
 | `--narrowViewport`   | Narrow viewport dimensions                                                                            | object        | { width: 320, height: 1200 }        |
 | `--standardViewport` | Standard viewport dimensions                                                                          | object        | { width: 1920, height: 1200 }       |
-| `--querySelector`    | Query selector to select your node on each page.  Uses `document.querySelectorAll`.                   | string        | "*"                                 |
+| `--querySelector`    | Query selector to select your node on each page.  Uses `document.querySelectorAll`.                   | string        | "#root"                             |
 | `--verbose`          | Verbose logging output.                                                                               | boolean       | false                               |
 
 ### Example story2sketch.config.js
