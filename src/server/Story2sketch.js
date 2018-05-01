@@ -11,18 +11,25 @@ import PagePool from "./PagePool.js";
 const defaultConcurrency = 4;
 const defaultSymbolGutter = 100;
 
-const defaultNarrowViewport = { width: 320, height: 1200 };
-const defaultStandardViewport = { width: 1920, height: 1200 };
-
 export default class Story2sketch {
   constructor({
     output = `${process.cwd()}/dist/stories.asketch.json`,
     url = "http://localhost:9001/iframe.html",
     concurrency = defaultConcurrency,
     pageTitle = "Stories",
+    viewports = {
+      narrow: {
+        width: 320,
+        height: 1200,
+        symbolPrefix: "📱 "
+      },
+      standard: {
+        width: 1920,
+        height: 1200,
+        symbolPrefix: "🖥 "
+      }
+    },
     symbolGutter = defaultSymbolGutter,
-    narrowViewport = defaultNarrowViewport,
-    standardViewport = defaultStandardViewport,
     querySelector = "#root",
     verbose = false,
     stories
@@ -32,18 +39,25 @@ export default class Story2sketch {
     this.concurrency = concurrency;
     this.pageTitle = pageTitle;
     this.symbolGutter = symbolGutter;
-    this.narrowViewport = narrowViewport;
-    this.standardViewport = standardViewport;
+    this.viewports = viewports;
     this.querySelector = querySelector;
     this.stories = stories;
     this.verbose = verbose;
+
+    // Sort viewports by width
+    this.sortedViewports = Object.keys(viewports)
+      .map(key => ({
+        ...viewports[key],
+        id: key
+      }))
+      .sort((a, b) => a.width > b.width);
   }
 
   reset() {
-    this.narrowSymbols = [];
-    this.standardSymbols = [];
-    this.offset = 0;
-    this.widestNarrowSymbol = 0;
+    this.symbolsByViewport = {};
+    this.yOffset = 0;
+    this.widestByViewport = {};
+    this.processedStories = 0;
     this.storyCount = 0;
     this.sketchPage = {};
   }
@@ -119,29 +133,32 @@ export default class Story2sketch {
         this.storyCount += 1;
 
         pagePool.queue(async page => {
-          const {
-            narrowSymbol,
-            standardSymbol
-          } = await this.getSymbolsForStory({
+          const symbolByViewport = await this.getSymbolsForStory({
             page,
             kind,
             story
           });
 
-          narrowSymbol.frame.y = this.offset;
-          standardSymbol.frame.y = this.offset;
+          let tallest = 0;
 
-          this.offset +=
-            Math.max(standardSymbol.frame.height, narrowSymbol.frame.height) +
-            this.symbolGutter;
+          for (const viewportKey in symbolByViewport) {
+            const symbol = symbolByViewport[viewportKey];
 
-          this.widestNarrowSymbol = Math.max(
-            narrowSymbol.frame.width,
-            this.widestNarrowSymbol
-          );
+            symbol.frame.y = this.yOffset;
 
-          this.narrowSymbols.push(narrowSymbol);
-          this.standardSymbols.push(standardSymbol);
+            tallest = Math.max(tallest, symbol.frame.height);
+
+            this.widestByViewport[viewportKey] = Math.max(
+              this.widestByViewport[viewportKey] || 0,
+              symbol.frame.width
+            );
+
+            this.symbolsByViewport[viewportKey] =
+              this.symbolsByViewport[viewportKey] || [];
+            this.symbolsByViewport[viewportKey].push(symbol);
+          }
+
+          this.yOffset += tallest + this.symbolGutter;
         });
       }
     }
@@ -162,45 +179,43 @@ export default class Story2sketch {
       path: `${__dirname}/../browser/page2layers.bundle.js`
     });
 
-    await page.setViewport(this.narrowViewport);
-
     const name = `${kind}/${story.displayName || story.name}`;
+    const symbolByViewport = {};
 
-    const narrowParams = JSON.stringify({
-      name: `📱 ${name}`,
-      querySelector: this.querySelector
-    });
+    for (const { symbolPrefix = "", id, width, height } of this
+      .sortedViewports) {
+      await page.setViewport({ width, height });
 
-    const standardParams = JSON.stringify({
-      name: `🖥 ${name}`,
-      querySelector: this.querySelector
-    });
+      // Only prefix if symbolPrefix is defined
+      const params = JSON.stringify({
+        name: `${symbolPrefix}${name}`,
+        querySelector: this.querySelector
+      });
 
-    // JSON.parse + JSON.stringify hack was originally used until
-    // https://github.com/GoogleChrome/puppeteer/issues/1510 was fixed, but
-    // it still results in better performance.
-    const narrowSymbolJson = await page.evaluate(`
-      JSON.stringify(
-        page2layers
-        .getSymbol(${narrowParams})
-      );
-    `);
+      // JSON.parse + JSON.stringify hack was originally used until
+      // https://github.com/GoogleChrome/puppeteer/issues/1510 was fixed, but
+      // it still results in better performance.
+      const symbolJson = await page.evaluate(`
+        JSON.stringify(
+          page2layers
+          .getSymbol(${params})
+        );
+        `);
 
-    await page.setViewport(this.standardViewport);
+      const symbol = JSON.parse(symbolJson);
 
-    const standardSymbolJson = await page.evaluate(`
-      JSON.stringify(
-        page2layers
-        .getSymbol(${standardParams})
-      );
-    `);
+      symbol.symbolID = `${name}:${id}`;
 
-    const narrowSymbol = JSON.parse(narrowSymbolJson);
-    const standardSymbol = JSON.parse(standardSymbolJson);
+      symbolByViewport[id] = symbol;
+    }
 
-    // Override existing randomly generated ids for fixed symbol reference in sketch.
-    narrowSymbol.symbolID = `${name}:narrow`;
-    standardSymbol.symbolID = `${name}:standard`;
+    this.logProgress(name);
+
+    return symbolByViewport;
+  }
+
+  logProgress(name) {
+    this.processedStories += 1;
 
     if (this.verbose) {
       console.log(
@@ -208,15 +223,10 @@ export default class Story2sketch {
       );
     } else {
       this.progressBar.tick({
-        processed: this.narrowSymbols.length + 1,
+        processed: this.processedStories,
         story: chalk.bold(name)
       });
     }
-
-    return {
-      narrowSymbol,
-      standardSymbol
-    };
   }
 
   async execute() {
@@ -235,13 +245,17 @@ export default class Story2sketch {
       }
     });
 
-    for (const narrowSymbol of this.narrowSymbols) {
-      this.sketchPage.layers.push(narrowSymbol);
-    }
+    let xOffset = 0;
 
-    for (const standardSymbol of this.standardSymbols) {
-      standardSymbol.frame.x = this.widestNarrowSymbol + this.symbolGutter;
-      this.sketchPage.layers.push(standardSymbol);
+    for (const { id } of this.sortedViewports) {
+      const symbols = this.symbolsByViewport[id];
+
+      for (const symbol of symbols) {
+        symbol.frame.x = xOffset;
+        this.sketchPage.layers.push(symbol);
+      }
+
+      xOffset += this.widestByViewport[id] + this.symbolGutter;
     }
 
     fs.writeFileSync(this.output, JSON.stringify(this.sketchPage));
@@ -249,7 +263,7 @@ export default class Story2sketch {
     console.log(
       chalk.green(
         `Success! ${
-          this.narrowSymbols.length
+          this.processedStories
         } stories written to ${chalk.white.bold(this.output)}`
       )
     );
