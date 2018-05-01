@@ -1,3 +1,25 @@
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/chrisvxd/story2sketch/compare/v0.3.0...v1.0.0) (2018-05-01)
+
+
+### Bug Fixes
+
+* add missing babel-runtime dependency ([6f9155f](https://github.com/chrisvxd/story2sketch/commit/6f9155f))
+* use and document correct querySelector default ([c879c0b](https://github.com/chrisvxd/story2sketch/commit/c879c0b))
+
+
+### Features
+
+* add "viewport" config for totally custom viewports ([6d42d50](https://github.com/chrisvxd/story2sketch/commit/6d42d50))
+* upgrade to html-sketchapp@3.1.0 ([637aab9](https://github.com/chrisvxd/story2sketch/commit/637aab9))
+
+
+### BREAKING CHANGES
+
+* remove `narrowViewport` and `standardViewport` configuration options. Use `viewports` instead.
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/chrisvxd/story2sketch/compare/v0.2.1...v0.3.0) (2018-04-24)
 
