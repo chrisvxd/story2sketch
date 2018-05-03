@@ -130,7 +130,9 @@ export default class Story2sketch {
 
     for (const { kind, stories } of this.stories) {
       for (const story of stories) {
-        this.storyCount += 1;
+        const storyIndex = this.storyCount;
+
+        this.storyCount++;
 
         pagePool.queue(async page => {
           const symbolByViewport = await this.getSymbolsForStory({
@@ -153,14 +155,18 @@ export default class Story2sketch {
               symbol.frame.width
             );
 
-            this.symbolsByViewport[viewportKey] =
-              this.symbolsByViewport[viewportKey] || [];
-            this.symbolsByViewport[viewportKey].push(symbol);
+            // Assign by index to retain the order of the symbols
+            this.symbolsByViewport[viewportKey][storyIndex] = symbol;
           }
 
           this.yOffset += tallest + this.symbolGutter;
         });
       }
+    }
+
+    // Initialize an array per viewport based on the number of stories
+    for (const {id} of this.sortedViewports) {
+      this.symbolsByViewport[id] = Array(this.storyCount);
     }
 
     return pagePool;
@@ -248,7 +254,7 @@ export default class Story2sketch {
     let xOffset = 0;
 
     for (const { id } of this.sortedViewports) {
-      const symbols = this.symbolsByViewport[id];
+      const symbols = this.symbolsByViewport[id].filter(x => x);
 
       for (const symbol of symbols) {
         symbol.frame.x = xOffset;
