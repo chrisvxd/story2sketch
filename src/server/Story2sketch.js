@@ -55,8 +55,8 @@ export default class Story2sketch {
 
   reset() {
     this.symbolsByViewport = {};
-    this.yOffset = 0;
     this.widestByViewport = {};
+    this.tallestByViewport = {};
     this.processedStories = 0;
     this.storyCount = 0;
     this.sketchPage = {};
@@ -141,14 +141,13 @@ export default class Story2sketch {
             story
           });
 
-          let tallest = 0;
-
           for (const viewportKey in symbolByViewport) {
             const symbol = symbolByViewport[viewportKey];
 
-            symbol.frame.y = this.yOffset;
-
-            tallest = Math.max(tallest, symbol.frame.height);
+            this.tallestByViewport[viewportKey] = Math.max(
+              this.tallestByViewport[viewportKey] || 0,
+              symbol.frame.height
+            );
 
             this.widestByViewport[viewportKey] = Math.max(
               this.widestByViewport[viewportKey] || 0,
@@ -158,8 +157,6 @@ export default class Story2sketch {
             // Assign by index to retain the order of the symbols
             this.symbolsByViewport[viewportKey][storyIndex] = symbol;
           }
-
-          this.yOffset += tallest + this.symbolGutter;
         });
       }
     }
@@ -235,6 +232,25 @@ export default class Story2sketch {
     }
   }
 
+  positionSymbols() {
+    let xOffset = 0;
+    let yOffset = 0;
+
+    for (const { id } of this.sortedViewports) {
+      // Filter out failed symbols
+      const symbols = this.symbolsByViewport[id].filter(x => x);
+
+      for (const symbol of symbols) {
+        symbol.frame.x = xOffset;
+        symbol.frame.y = yOffset;
+        this.sketchPage.layers.push(symbol);
+      }
+
+      xOffset += this.widestByViewport[id] + this.symbolGutter;
+      yOffset += this.tallestByViewport[id] + this.symbolGutter;
+    }
+  }
+
   async execute() {
     process.on("SIGINT", () => {
       this.browser.close();
@@ -251,20 +267,7 @@ export default class Story2sketch {
       }
     });
 
-    let xOffset = 0;
-
-    for (const { id } of this.sortedViewports) {
-      const symbols = this.symbolsByViewport[id].filter(x => x);
-
-      for (const symbol of symbols) {
-        symbol.frame.x = xOffset;
-        this.sketchPage.layers.push(symbol);
-      }
-
-      xOffset += this.widestByViewport[id] + this.symbolGutter;
-    }
-
-    fs.writeFileSync(this.output, JSON.stringify(this.sketchPage));
+    this.positionSymbols();
 
     console.log(
       chalk.green(
