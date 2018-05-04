@@ -56,7 +56,7 @@ export default class Story2sketch {
   reset() {
     this.symbolsByViewport = {};
     this.widestByViewport = {};
-    this.tallestByViewport = {};
+    this.tallestByStory = {};
     this.processedStories = 0;
     this.storyCount = 0;
     this.sketchPage = {};
@@ -141,13 +141,12 @@ export default class Story2sketch {
             story
           });
 
+          let tallest = 0;
+
           for (const viewportKey in symbolByViewport) {
             const symbol = symbolByViewport[viewportKey];
 
-            this.tallestByViewport[viewportKey] = Math.max(
-              this.tallestByViewport[viewportKey] || 0,
-              symbol.frame.height
-            );
+            tallest = Math.max(tallest, symbol.frame.height);
 
             this.widestByViewport[viewportKey] = Math.max(
               this.widestByViewport[viewportKey] || 0,
@@ -157,6 +156,8 @@ export default class Story2sketch {
             // Assign by index to retain the order of the symbols
             this.symbolsByViewport[viewportKey][storyIndex] = symbol;
           }
+
+          this.tallestByStory[storyIndex] = tallest;
         });
       }
     }
@@ -234,20 +235,23 @@ export default class Story2sketch {
 
   positionSymbols() {
     let xOffset = 0;
-    let yOffset = 0;
 
     for (const { id } of this.sortedViewports) {
-      // Filter out failed symbols
-      const symbols = this.symbolsByViewport[id].filter(x => x);
+      let yOffset = 0;
 
-      for (const symbol of symbols) {
-        symbol.frame.x = xOffset;
-        symbol.frame.y = yOffset;
-        this.sketchPage.layers.push(symbol);
+      const symbols = this.symbolsByViewport[id];
+
+      for (const [index, symbol] of symbols.entries()) {
+        // Skip failed symbols
+        if (symbol) {
+          symbol.frame.x = xOffset;
+          symbol.frame.y = yOffset;
+          this.sketchPage.layers.push(symbol);
+          yOffset += this.tallestByStory[index] + this.symbolGutter;
+        }
       }
 
       xOffset += this.widestByViewport[id] + this.symbolGutter;
-      yOffset += this.tallestByViewport[id] + this.symbolGutter;
     }
   }
 
@@ -268,6 +272,8 @@ export default class Story2sketch {
     });
 
     this.positionSymbols();
+
+    fs.writeFileSync(this.output, JSON.stringify(this.sketchPage));
 
     console.log(
       chalk.green(
