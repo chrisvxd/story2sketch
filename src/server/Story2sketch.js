@@ -55,8 +55,8 @@ export default class Story2sketch {
 
   reset() {
     this.symbolsByViewport = {};
-    this.yOffset = 0;
     this.widestByViewport = {};
+    this.tallestByStory = {};
     this.processedStories = 0;
     this.storyCount = 0;
     this.sketchPage = {};
@@ -130,7 +130,9 @@ export default class Story2sketch {
 
     for (const { kind, stories } of this.stories) {
       for (const story of stories) {
-        this.storyCount += 1;
+        const storyIndex = this.storyCount;
+
+        this.storyCount++;
 
         pagePool.queue(async page => {
           const symbolByViewport = await this.getSymbolsForStory({
@@ -144,8 +146,6 @@ export default class Story2sketch {
           for (const viewportKey in symbolByViewport) {
             const symbol = symbolByViewport[viewportKey];
 
-            symbol.frame.y = this.yOffset;
-
             tallest = Math.max(tallest, symbol.frame.height);
 
             this.widestByViewport[viewportKey] = Math.max(
@@ -153,14 +153,18 @@ export default class Story2sketch {
               symbol.frame.width
             );
 
-            this.symbolsByViewport[viewportKey] =
-              this.symbolsByViewport[viewportKey] || [];
-            this.symbolsByViewport[viewportKey].push(symbol);
+            // Assign by index to retain the order of the symbols
+            this.symbolsByViewport[viewportKey][storyIndex] = symbol;
           }
 
-          this.yOffset += tallest + this.symbolGutter;
+          this.tallestByStory[storyIndex] = tallest;
         });
       }
+    }
+
+    // Initialize an array per viewport based on the number of stories
+    for (const {id} of this.sortedViewports) {
+      this.symbolsByViewport[id] = Array(this.storyCount);
     }
 
     return pagePool;
@@ -229,6 +233,28 @@ export default class Story2sketch {
     }
   }
 
+  positionSymbols() {
+    let xOffset = 0;
+
+    for (const { id } of this.sortedViewports) {
+      let yOffset = 0;
+
+      const symbols = this.symbolsByViewport[id];
+
+      for (const [index, symbol] of symbols.entries()) {
+        // Skip failed symbols
+        if (symbol) {
+          symbol.frame.x = xOffset;
+          symbol.frame.y = yOffset;
+          this.sketchPage.layers.push(symbol);
+          yOffset += this.tallestByStory[index] + this.symbolGutter;
+        }
+      }
+
+      xOffset += this.widestByViewport[id] + this.symbolGutter;
+    }
+  }
+
   async execute() {
     process.on("SIGINT", () => {
       this.browser.close();
@@ -245,18 +271,7 @@ export default class Story2sketch {
       }
     });
 
-    let xOffset = 0;
-
-    for (const { id } of this.sortedViewports) {
-      const symbols = this.symbolsByViewport[id];
-
-      for (const symbol of symbols) {
-        symbol.frame.x = xOffset;
-        this.sketchPage.layers.push(symbol);
-      }
-
-      xOffset += this.widestByViewport[id] + this.symbolGutter;
-    }
+    this.positionSymbols();
 
     fs.writeFileSync(this.output, JSON.stringify(this.sketchPage));
 
