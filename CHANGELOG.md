@@ -1,3 +1,13 @@
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/chrisvxd/story2sketch/compare/v1.0.0...v1.0.1) (2018-05-09)
+
+
+### Bug Fixes
+
+* order symbols correctly when using concurrency ([758f0da](https://github.com/chrisvxd/story2sketch/commit/758f0da))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/chrisvxd/story2sketch/compare/v0.3.0...v1.0.0) (2018-05-01)
 
@@ -16,7 +26,8 @@
 
 ### BREAKING CHANGES
 
-* remove `narrowViewport` and `standardViewport` configuration options. Use `viewports` instead.
+* remove `narrowViewport` and `standardViewport` configuration options. Use
+`viewports` instead.
 
 
 
