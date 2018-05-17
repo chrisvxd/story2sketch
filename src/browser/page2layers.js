@@ -21,6 +21,10 @@ export const getSymbol = ({
     nodes = document.querySelector(querySelector);
   }
 
+  if (!nodes) {
+    return null;
+  }
+
   const layer = nodeTreeToSketchGroup(nodes, {
     getGroupName: getNodeName,
     getRectangleName: getNodeName
