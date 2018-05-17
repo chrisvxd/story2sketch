@@ -163,7 +163,7 @@ export default class Story2sketch {
     }
 
     // Initialize an array per viewport based on the number of stories
-    for (const {id} of this.sortedViewports) {
+    for (const { id } of this.sortedViewports) {
       this.symbolsByViewport[id] = Array(this.storyCount);
     }
 
@@ -208,9 +208,19 @@ export default class Story2sketch {
 
       const symbol = JSON.parse(symbolJson);
 
-      symbol.symbolID = `${name}:${id}`;
+      if (symbol) {
+        symbol.symbolID = `${name}:${id}`;
 
-      symbolByViewport[id] = symbol;
+        symbolByViewport[id] = symbol;
+      } else {
+        console.warn(
+          chalk.yellow(
+            ` WARNING: No matching node for "${name}" using querySelector ${
+              this.querySelector
+            } on viewport ${id}`
+          )
+        );
+      }
     }
 
     this.logProgress(name);
