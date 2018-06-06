@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@brainly/html-sketchapp@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@brainly/html-sketchapp/-/html-sketchapp-3.1.0.tgz#bfe12bc12348378e27dc3ec6c37f9d7773975677"
+"@brainly/html-sketchapp@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@brainly/html-sketchapp/-/html-sketchapp-3.2.0.tgz#8d0f9a0614cad4348e5af70eade9dbfa52927274"
   dependencies:
     murmur2js "^1.0.0"
     normalize-css-color "^1.0.2"
