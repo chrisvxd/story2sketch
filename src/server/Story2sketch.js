@@ -32,7 +32,8 @@ export default class Story2sketch {
     symbolGutter = defaultSymbolGutter,
     querySelector = "#root",
     verbose = false,
-    stories
+    stories,
+    puppeteerOptions = {}
   }) {
     this.output = output;
     this.url = url;
@@ -43,6 +44,7 @@ export default class Story2sketch {
     this.querySelector = querySelector;
     this.stories = stories;
     this.verbose = verbose;
+    this.puppeteerOptions = puppeteerOptions;
 
     // Sort viewports by width
     this.sortedViewports = Object.keys(viewports)
@@ -63,7 +65,7 @@ export default class Story2sketch {
   }
 
   async init() {
-    this.browser = await puppeteer.launch();
+    this.browser = await puppeteer.launch(this.puppeteerOptions);
 
     if (!this.stories || this.stories === "all") {
       if (this.verbose) {
