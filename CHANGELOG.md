@@ -1,3 +1,14 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/chrisvxd/story2sketch/compare/v1.0.1...v1.1.0) (2018-06-19)
+
+
+### Features
+
+* add better error handling if story doesn't exist ([54bdfc1](https://github.com/chrisvxd/story2sketch/commit/54bdfc1))
+* upgrade to html-sketchapp@3.2.0 ([61be07b](https://github.com/chrisvxd/story2sketch/commit/61be07b))
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/chrisvxd/story2sketch/compare/v1.0.0...v1.0.1) (2018-05-09)
 
