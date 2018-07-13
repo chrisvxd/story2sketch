@@ -33,7 +33,7 @@ export default class Story2sketch {
     querySelector = "#root",
     verbose = false,
     stories,
-    puppeteerOptions = []
+    puppeteerOptions = {}
   }) {
     this.output = output;
     this.url = url;
