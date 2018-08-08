@@ -1,3 +1,15 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/chrisvxd/story2sketch/compare/v1.1.0...v1.2.0) (2018-08-08)
+
+
+### Features
+
+* add forward compatibility for storybook@4 ([fc39738](https://github.com/chrisvxd/story2sketch/commit/fc39738))
+* add support for puppeteer.launch options ([66a8e57](https://github.com/chrisvxd/story2sketch/commit/66a8e57))
+* upgrade to html-sketchapp@3.3.1 ([51ef691](https://github.com/chrisvxd/story2sketch/commit/51ef691))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/chrisvxd/story2sketch/compare/v1.0.1...v1.1.0) (2018-06-19)
 
