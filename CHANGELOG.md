@@ -1,3 +1,13 @@
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/chrisvxd/story2sketch/compare/v1.2.0...v1.3.0) (2018-08-08)
+
+
+### Features
+
+* update to html-sketchapp@4.0.0 ([cfcf827](https://github.com/chrisvxd/story2sketch/commit/cfcf827))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/chrisvxd/story2sketch/compare/v1.1.0...v1.2.0) (2018-08-08)
 
