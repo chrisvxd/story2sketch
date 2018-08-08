@@ -6,7 +6,7 @@ Convert [Storybook](https://storybook.js.org) stories into [Sketch](https://www.
 
 ## Quickstart
 
-Firstly, get [Sketch](https://sketchapp.com) and [npm](https://nodejs.org/en/download/). Then install [`asketch2sketch.sketchplugin`](https://github.com/brainly/html-sketchapp/releases/download/v3.3.1/asketch2sketch-3-3-1.sketchplugin.zip) into Sketch:
+Firstly, get [Sketch](https://sketchapp.com) and [npm](https://nodejs.org/en/download/). Then install [`asketch2sketch.sketchplugin`](https://github.com/brainly/html-sketchapp/releases/download/v4.0.0/asketch2sketch-4-0-0.sketchplugin.zip) into Sketch:
 
 <img src="https://i.imgur.com/9eDm6NQ.png" width="450" alt="Installing Sketch plugin" title="Installing Sketch plugin" />
 

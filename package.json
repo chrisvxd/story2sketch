@@ -49,7 +49,7 @@
     }
   },
   "dependencies": {
-    "@brainly/html-sketchapp": "^3.3.1",
+    "@brainly/html-sketchapp": "^4.0.0",
     "babel-runtime": "^6.26.0",
     "chalk": "^2.3.0",
     "cosmiconfig": "^4.0.0",
