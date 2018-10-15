@@ -1,3 +1,13 @@
+<a name="1.3.1"></a>
+## [1.3.1](https://github.com/chrisvxd/story2sketch/compare/v1.3.0...v1.3.1) (2018-10-15)
+
+
+### Bug Fixes
+
+* ensure preview is object with getStorybook() for storybook@3 ([1fe6409](https://github.com/chrisvxd/story2sketch/commit/1fe6409))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/chrisvxd/story2sketch/compare/v1.2.0...v1.3.0) (2018-08-08)
 
