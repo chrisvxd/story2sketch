@@ -16,9 +16,17 @@ Install `story2sketch`:
 npm i story2sketch -g
 ```
 
-### Storybook 4.0 alpha only
+Run `story2sketch`, pointing towards a Storybook iframe URL. See [configuration](#configuration) for more options, or if you have a lot of stories.
 
-If you're using the Storybook 4.0 alpha, skip ahead to [Run story2sketch](#run-story2sketch).
+```sh
+story2sketch --url https://localhost:9001/iframe.html --output stories.asketch.json
+```
+
+Import the generated file into Sketch via `Plugins > From *Almost* Sketch to Sketch` in Sketch menu bar.
+
+![Using sketch plugin](https://i.imgur.com/aA94aNN.png)
+
+Success!
 
 ### Storybook 3.x
 
@@ -48,20 +56,11 @@ import { getStorybook } from "@storybook/react";
 export { getStorybook }
 ```
 
-<a name="run-story2sketch"></a>
-### Run story2sketch
-
-Run story2sketch, pointing towards a Storybook iframe URL. See [configuration](#configuration) for more options, or if you have a lot of stories.
+Run story2sketch:
 
 ```sh
 story2sketch --url https://localhost:9001/iframe.html --output stories.asketch.json
 ```
-
-Import the generated file into Sketch via `Plugins > From *Almost* Sketch to Sketch` in Sketch menu bar.
-
-![Using sketch plugin](https://i.imgur.com/aA94aNN.png)
-
-Success!
 
 ## Why?
 
