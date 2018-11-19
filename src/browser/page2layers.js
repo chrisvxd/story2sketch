@@ -27,8 +27,11 @@ const fixPseudoElements = () => {
 
   for (let i = 0; i < allElements.length; i++) {
     // Remove reset so we can get the screen sizes pseudo-element styles 
-    allElements[i].className = allElements[i].className.replace('before-reset', '')
-    allElements[i].className = allElements[i].className.replace('after-reset', '')
+    if ( allElements[i].className){
+      allElements[i].className = allElements[i].className.replace('before-reset', '')
+      allElements[i].className = allElements[i].className.replace('after-reset', '')
+    }
+    
 
     const elementBeforeStyles = window.getComputedStyle(allElements[i], ':before');
     const elementAfterStyles = window.getComputedStyle(allElements[i], ':after');
