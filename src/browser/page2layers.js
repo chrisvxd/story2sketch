@@ -51,7 +51,7 @@ const fixPseudoElements = () => {
     if (elementAfterContent && elementAfterContent !== 'none') {
       const virtualAfter = document.createElement('span');
 
-      virtualBefore.className = "fake-pseudo"    
+      virtualAfter.className = "fake-pseudo"    
       virtualAfter.setAttribute('style', elementAfterStyles.cssText);
       virtualAfter.innerHTML = elementAfterStyles.content.split('"').join('');
       allElements[i].className += ' after-reset';
