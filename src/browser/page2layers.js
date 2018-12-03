@@ -28,7 +28,10 @@ const fixPseudoElements = () => {
 
   for (let i = 0; i < allElements.length; i++) {
     // Remove reset so we can get the screen sizes pseudo-element styles
-    if (allElements[i].className) {
+    if (
+      allElements[i].className &&
+      typeof allElements[i].className === "string"
+    ) {
       allElements[i].className = allElements[i].className.replace(
         "before-reset",
         ""
