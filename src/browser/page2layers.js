@@ -75,12 +75,22 @@ const fixPseudoElements = () => {
   }
 };
 
+const removeShowMainMargin = () => {
+  const head = document.head || document.getElementsByTagName("head")[0];
+  const style = document.createElement("style");
+
+  style.appendChild(document.createTextNode(".sb-show-main { margin: 0 }"));
+
+  head.appendChild(style);
+};
+
 export const getSymbol = ({
   name = "symbol",
   x = 0,
   y = 0,
   querySelector = "#root",
-  fixPseudo = false
+  fixPseudo = false,
+  removePreviewMargin
 } = {}) => {
   let nodes;
 
@@ -96,6 +106,10 @@ export const getSymbol = ({
 
   if (fixPseudo) {
     fixPseudoElements();
+  }
+
+  if (removePreviewMargin) {
+    removeShowMainMargin();
   }
 
   const layer = nodeTreeToSketchGroup(nodes, {
