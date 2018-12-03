@@ -1,3 +1,14 @@
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/chrisvxd/story2sketch/compare/v1.3.1...v1.4.0) (2018-12-03)
+
+
+### Features
+
+* add opt-in fix for pseudo-elements ([b1eb6a5](https://github.com/chrisvxd/story2sketch/commit/b1eb6a5))
+* remove iframe body margin by default ([5a4b1e9](https://github.com/chrisvxd/story2sketch/commit/5a4b1e9))
+
+
+
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/chrisvxd/story2sketch/compare/v1.3.0...v1.3.1) (2018-10-15)
 
