@@ -34,7 +34,8 @@ export default class Story2sketch {
     verbose = false,
     fixPseudo = false,
     stories,
-    puppeteerOptions = {}
+    puppeteerOptions = {},
+    removePreviewMargin = true
   }) {
     this.output = output;
     this.url = url;
@@ -46,6 +47,7 @@ export default class Story2sketch {
     this.stories = stories;
     this.verbose = verbose;
     this.fixPseudo = fixPseudo;
+    this.removePreviewMargin = removePreviewMargin === true;
     this.puppeteerOptions = puppeteerOptions;
 
     // Sort viewports by width
@@ -198,7 +200,8 @@ export default class Story2sketch {
       const params = JSON.stringify({
         name: `${symbolPrefix}${name}`,
         querySelector: this.querySelector,
-        fixPseudo: this.fixPseudo
+        fixPseudo: this.fixPseudo,
+        removePreviewMargin: this.removePreviewMargin
       });
 
       // JSON.parse + JSON.stringify hack was originally used until
