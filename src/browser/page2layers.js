@@ -79,7 +79,8 @@ export const getSymbol = ({
   name = "symbol",
   x = 0,
   y = 0,
-  querySelector = "#root"
+  querySelector = "#root",
+  fixPseudo = false
 } = {}) => {
   let nodes;
 
@@ -93,7 +94,9 @@ export const getSymbol = ({
     return null;
   }
 
-  fixPseudoElements();
+  if (fixPseudo) {
+    fixPseudoElements();
+  }
 
   const layer = nodeTreeToSketchGroup(nodes, {
     getGroupName: getNodeName,

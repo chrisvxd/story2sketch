@@ -32,6 +32,7 @@ export default class Story2sketch {
     symbolGutter = defaultSymbolGutter,
     querySelector = "#root",
     verbose = false,
+    fixPseudo = false,
     stories,
     puppeteerOptions = {}
   }) {
@@ -44,6 +45,7 @@ export default class Story2sketch {
     this.querySelector = querySelector;
     this.stories = stories;
     this.verbose = verbose;
+    this.fixPseudo = fixPseudo;
     this.puppeteerOptions = puppeteerOptions;
 
     // Sort viewports by width
@@ -195,7 +197,8 @@ export default class Story2sketch {
       // Only prefix if symbolPrefix is defined
       const params = JSON.stringify({
         name: `${symbolPrefix}${name}`,
-        querySelector: this.querySelector
+        querySelector: this.querySelector,
+        fixPseudo: this.fixPseudo
       });
 
       // JSON.parse + JSON.stringify hack was originally used until
