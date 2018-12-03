@@ -1,0 +1,24 @@
+{
+  "name": "core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "build-storybook -c .storybook -o dist",
+    "story2sketch": "yarn build && ../../lib/server/index.js --input dist/iframe.html --output example.asketch.json --fixPseudo",
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@storybook/react": "^4.0.11",
+    "babel-loader": "^8.0.4",
+    "webpack": "^4.26.1"
+  },
+  "dependencies": {
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  }
+}
