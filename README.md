@@ -177,7 +177,7 @@ module.exports = {
 };
 ```
 
-## Continuos Integration
+## Continuous Integration
 
 If you want `story2sketch` to run in a CI environment you might have to add the following configuration to puppeteer in your `story2sketch.config.js`.
 
