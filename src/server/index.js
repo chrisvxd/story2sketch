@@ -10,17 +10,15 @@ import path from "path";
 import chalk from "chalk";
 import logoAscii from "./logoAscii";
 
+// Ensure paths are absolute, not relative
+const absolute = p => (p && p[0] !== "/" ? path.join(process.cwd(), p) : p);
+
 const tidyConfig = config => {
   const newConfig = { ...config };
 
-  // Ensure paths are absolute, not relative
-  if (newConfig.output && newConfig.output[0] !== "/") {
-    newConfig.output = path.join(process.cwd(), newConfig.output);
-  }
-
-  if (newConfig.input && newConfig.input[0] !== "/") {
-    newConfig.input = path.join(process.cwd(), newConfig.input);
-  }
+  newConfig.input = absolute(newConfig.input);
+  newConfig.output = absolute(newConfig.output);
+  newConfig.outputBy = absolute(newConfig.outputBy);
 
   // Convert input file to URL if defined
   if (newConfig.input) {

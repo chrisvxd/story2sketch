@@ -110,7 +110,7 @@ module.exports = {
 
 | Parameter           | Explanation                                                                                                                                                                    | Input Type    | Default                                                                             |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- | ----------------------------------------------------------------------------------- |
-| output              | Specifies the filename for the generated asketch.json file.                                                                                                                    | string        | `"dist/stories.asketch.json"`                                                       |
+| output              | Specifies the filename for the generated asketch.json file or a folder when outputBy === 'kind'.                                                                               | string        | `"dist/stories.asketch.json"`                                                       |
 | input               | The location of Storybook's generated iframe.html. Use this over `url` if possible for performance.                                                                            | string        | `"dist/iframe.html"`                                                                |
 | url                 | Storybook iframe URL. Will end in `iframe.html`. Prefer `input` for performance if possible.                                                                                   | string        | `"http://localhost:9001/iframe.html"`                                               |
 | stories             | Stories to extract from Storybook. You should probably override the default.                                                                                                   | object/string | `"all"`                                                                             |
@@ -122,6 +122,8 @@ module.exports = {
 | fixPseudo           | Attempt to insert real elements in place of pseudo-elements                                                                                                                    | boolean       | `false`                                                                             |
 | puppeteerOptions    | Options to be passed directly to `puppeteer.launch`. See [puppeteer docs](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions) for usage. | object        | `{}`                                                                                |
 | removePreviewMargin | Remove preview margin from the iframe body.                                                                                                                                    | boolean       | `true`                                                                              |
+| layoutBy            | How to layout the stories. (values: 'kind')                                                                                                                                    | string        | null                                                                                |
+| outputBy            | How to output the stories (values: 'kind')                                                                                                                                     | string        | null                                                                                |
 
 ### Example story2sketch.config.js
 
@@ -188,7 +190,6 @@ module.exports = {
   },
   ...
 };
-
 ```
 
 <a name="questions"><a/>
