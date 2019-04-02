@@ -122,6 +122,7 @@ module.exports = {
 | fixPseudo           | Attempt to insert real elements in place of pseudo-elements                                                                                                                    | boolean       | `false`                                                                             |
 | puppeteerOptions    | Options to be passed directly to `puppeteer.launch`. See [puppeteer docs](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions) for usage. | object        | `{}`                                                                                |
 | removePreviewMargin | Remove preview margin from the iframe body.                                                                                                                                    | boolean       | `true`                                                                              |
+| layoutByKind        | Layout stories by kind horizontally                                                                                                                                            | boolean       | `false`                                                                             |
 
 ### Example story2sketch.config.js
 
@@ -188,7 +189,6 @@ module.exports = {
   },
   ...
 };
-
 ```
 
 <a name="questions"><a/>
