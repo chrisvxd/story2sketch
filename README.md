@@ -123,6 +123,7 @@ module.exports = {
 | puppeteerOptions    | Options to be passed directly to `puppeteer.launch`. See [puppeteer docs](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions) for usage. | object        | `{}`                                                                                |
 | removePreviewMargin | Remove preview margin from the iframe body.                                                                                                                                    | boolean       | `true`                                                                              |
 | layoutByKind        | Layout stories by kind horizontally                                                                                                                                            | boolean       | `false`                                                                             |
+| outputByKind        | Output each kind of story into it's own file at the specified path                                                                                                             | string        | `null`                                                                              |
 
 ### Example story2sketch.config.js
 

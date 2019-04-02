@@ -2,6 +2,8 @@
 
 import puppeteer from "puppeteer";
 import fs from "fs";
+import path from "path";
+import mkdirp from "mkdirp";
 import chalk from "chalk";
 import ProgressBar from "progress";
 
@@ -36,7 +38,8 @@ export default class Story2sketch {
     stories,
     puppeteerOptions = {},
     removePreviewMargin = true,
-    layoutByKind = false
+    layoutByKind = false,
+    outputByKind = null
   }) {
     this.output = output;
     this.url = url;
@@ -49,6 +52,7 @@ export default class Story2sketch {
     this.verbose = verbose;
     this.fixPseudo = fixPseudo;
     this.layoutByKind = layoutByKind;
+    this.outputByKind = outputByKind;
     this.removePreviewMargin = removePreviewMargin === true;
     this.puppeteerOptions = puppeteerOptions;
 
@@ -310,6 +314,33 @@ export default class Story2sketch {
     }
   }
 
+  writeByKind() {
+    mkdirp(this.outputByKind);
+
+    for (const kind of Object.keys(this.symbolsByKind)) {
+      const sketchPage = {
+        ...this.sketchPage,
+        layers: this.positionSymbols(this.symbolsByKind[kind])
+      };
+      const filename = `${kind
+        .replace(" ", "_")
+        .replace("/", "+")}.asketch.json`;
+
+      fs.writeFileSync(
+        path.join(this.outputByKind, filename),
+        JSON.stringify(sketchPage)
+      );
+    }
+
+    console.log(
+      chalk.green(
+        `Success! ${
+          this.processedStories
+        } wrote stories by kind to ${chalk.white.bold(this.outputByKind)}`
+      )
+    );
+  }
+
   async execute() {
     process.on("SIGINT", () => {
       this.browser.close();
@@ -325,6 +356,10 @@ export default class Story2sketch {
         console.error(error);
       }
     });
+
+    if (this.outputByKind) {
+      this.writeByKind();
+    }
 
     if (this.layoutByKind) {
       this.positionSymbolsByKind();
