@@ -2,6 +2,8 @@
 
 import puppeteer from "puppeteer";
 import fs from "fs";
+import path from "path";
+import mkdirp from "mkdirp";
 import chalk from "chalk";
 import ProgressBar from "progress";
 
@@ -35,7 +37,9 @@ export default class Story2sketch {
     fixPseudo = false,
     stories,
     puppeteerOptions = {},
-    removePreviewMargin = true
+    removePreviewMargin = true,
+    layoutBy = null,
+    outputBy = null
   }) {
     this.output = output;
     this.url = url;
@@ -47,6 +51,8 @@ export default class Story2sketch {
     this.stories = stories;
     this.verbose = verbose;
     this.fixPseudo = fixPseudo;
+    this.layoutBy = layoutBy;
+    this.outputBy = outputBy;
     this.removePreviewMargin = removePreviewMargin === true;
     this.puppeteerOptions = puppeteerOptions;
 
@@ -61,6 +67,7 @@ export default class Story2sketch {
 
   reset() {
     this.symbolsByViewport = {};
+    this.symbolsByKind = {};
     this.widestByViewport = {};
     this.tallestByStory = {};
     this.processedStories = 0;
@@ -135,6 +142,12 @@ export default class Story2sketch {
     await pagePool.init();
 
     for (const { kind, stories } of this.stories) {
+      this.symbolsByKind[kind] = {};
+
+      for (const { id } of this.sortedViewports) {
+        this.symbolsByKind[kind][id] = Array(stories.length);
+      }
+
       for (const story of stories) {
         const storyIndex = this.storyCount;
 
@@ -161,6 +174,7 @@ export default class Story2sketch {
 
             // Assign by index to retain the order of the symbols
             this.symbolsByViewport[viewportKey][storyIndex] = symbol;
+            this.symbolsByKind[kind][viewportKey][storyIndex] = symbol;
           }
 
           this.tallestByStory[storyIndex] = tallest;
@@ -251,26 +265,80 @@ export default class Story2sketch {
     }
   }
 
-  positionSymbols() {
-    let xOffset = 0;
+  positionSymbols(symbolsByViewport, xOffsetStart = 0) {
+    let layers = [];
+    let xOffset = xOffsetStart;
 
     for (const { id } of this.sortedViewports) {
       let yOffset = 0;
 
-      const symbols = this.symbolsByViewport[id];
+      const symbols = symbolsByViewport[id];
 
       for (const [index, symbol] of symbols.entries()) {
         // Skip failed symbols
         if (symbol) {
           symbol.frame.x = xOffset;
           symbol.frame.y = yOffset;
-          this.sketchPage.layers.push(symbol);
+          layers.push(symbol);
           yOffset += this.tallestByStory[index] + this.symbolGutter;
         }
       }
 
       xOffset += this.widestByViewport[id] + this.symbolGutter;
     }
+
+    return layers;
+  }
+
+  positionSymbolsByViewport() {
+    this.sketchPage.layers = [
+      ...this.sketchPage.layers,
+      ...this.positionSymbols(this.symbolsByViewport)
+    ];
+  }
+
+  positionSymbolsByKind() {
+    const width = this.sortedViewports.reduce(
+      (totalWidth, viewport) =>
+        totalWidth + this.widestByViewport[viewport.id] + this.symbolGutter,
+      0
+    );
+
+    for (const [index, kind] of Object.keys(this.symbolsByKind).entries()) {
+      const symbolsByViewport = this.symbolsByKind[kind];
+
+      this.sketchPage.layers = [
+        ...this.sketchPage.layers,
+        ...this.positionSymbols(symbolsByViewport, width * index)
+      ];
+    }
+  }
+
+  writeByKind() {
+    mkdirp(this.output);
+
+    for (const kind of Object.keys(this.symbolsByKind)) {
+      const sketchPage = {
+        ...this.sketchPage,
+        layers: this.positionSymbols(this.symbolsByKind[kind])
+      };
+      const filename = `${kind
+        .replace(" ", "_")
+        .replace("/", "+")}.asketch.json`;
+
+      fs.writeFileSync(
+        path.join(this.output, filename),
+        JSON.stringify(sketchPage)
+      );
+    }
+
+    console.log(
+      chalk.green(
+        `Success! ${
+          this.processedStories
+        } stories written by kind to ${chalk.white.bold(this.output)}`
+      )
+    );
   }
 
   async execute() {
@@ -289,9 +357,17 @@ export default class Story2sketch {
       }
     });
 
-    this.positionSymbols();
+    if (this.outputBy === "kind") {
+      this.writeByKind();
+    } else {
+      if (this.layoutBy === "kind") {
+        this.positionSymbolsByKind();
+      } else {
+        this.positionSymbolsByViewport();
+      }
 
-    fs.writeFileSync(this.output, JSON.stringify(this.sketchPage));
+      fs.writeFileSync(this.output, JSON.stringify(this.sketchPage));
+    }
 
     console.log(
       chalk.green(
