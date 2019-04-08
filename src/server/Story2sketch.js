@@ -35,7 +35,8 @@ export default class Story2sketch {
     fixPseudo = false,
     stories,
     puppeteerOptions = {},
-    removePreviewMargin = true
+    removePreviewMargin = true,
+    outputAsString = false
   }) {
     this.output = output;
     this.url = url;
@@ -49,6 +50,7 @@ export default class Story2sketch {
     this.fixPseudo = fixPseudo;
     this.removePreviewMargin = removePreviewMargin === true;
     this.puppeteerOptions = puppeteerOptions;
+    this.outputAsString = outputAsString;
 
     // Sort viewports by width
     this.sortedViewports = Object.keys(viewports)
@@ -291,17 +293,23 @@ export default class Story2sketch {
 
     this.positionSymbols();
 
-    fs.writeFileSync(this.output, JSON.stringify(this.sketchPage));
+    const output = JSON.stringify(this.sketchPage);
 
-    console.log(
-      chalk.green(
-        `Success! ${
-          this.processedStories
-        } stories written to ${chalk.white.bold(this.output)}`
-      )
-    );
+    if (!this.outputAsString) {
+      fs.writeFileSync(this.output, output);
+
+      console.log(
+        chalk.green(
+          `Success! ${
+            this.processedStories
+          } stories written to ${chalk.white.bold(this.output)}`
+        )
+      );
+    }
 
     this.browser.close();
     process.exit();
+
+    return fs.writeFileSync(output);
   }
 }
