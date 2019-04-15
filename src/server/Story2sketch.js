@@ -38,8 +38,8 @@ export default class Story2sketch {
     stories,
     puppeteerOptions = {},
     removePreviewMargin = true,
-    layoutByKind = false,
-    outputByKind = null
+    layoutBy = null,
+    outputBy = null
   }) {
     this.output = output;
     this.url = url;
@@ -51,8 +51,8 @@ export default class Story2sketch {
     this.stories = stories;
     this.verbose = verbose;
     this.fixPseudo = fixPseudo;
-    this.layoutByKind = layoutByKind;
-    this.outputByKind = outputByKind;
+    this.layoutBy = layoutBy;
+    this.outputBy = outputBy;
     this.removePreviewMargin = removePreviewMargin === true;
     this.puppeteerOptions = puppeteerOptions;
 
@@ -315,7 +315,7 @@ export default class Story2sketch {
   }
 
   writeByKind() {
-    mkdirp(this.outputByKind);
+    mkdirp(this.output);
 
     for (const kind of Object.keys(this.symbolsByKind)) {
       const sketchPage = {
@@ -327,7 +327,7 @@ export default class Story2sketch {
         .replace("/", "+")}.asketch.json`;
 
       fs.writeFileSync(
-        path.join(this.outputByKind, filename),
+        path.join(this.output, filename),
         JSON.stringify(sketchPage)
       );
     }
@@ -336,7 +336,7 @@ export default class Story2sketch {
       chalk.green(
         `Success! ${
           this.processedStories
-        } wrote stories by kind to ${chalk.white.bold(this.outputByKind)}`
+        } wrote stories by kind to ${chalk.white.bold(this.output)}`
       )
     );
   }
@@ -357,17 +357,17 @@ export default class Story2sketch {
       }
     });
 
-    if (this.outputByKind) {
+    if (this.outputBy === 'kind') {
       this.writeByKind();
-    }
-
-    if (this.layoutByKind) {
-      this.positionSymbolsByKind();
     } else {
-      this.positionSymbolsByViewport();
-    }
+      if (this.layoutBy === 'kind') {
+        this.positionSymbolsByKind();
+      } else {
+        this.positionSymbolsByViewport();
+      }
 
-    fs.writeFileSync(this.output, JSON.stringify(this.sketchPage));
+      fs.writeFileSync(this.output, JSON.stringify(this.sketchPage));
+    }
 
     console.log(
       chalk.green(
