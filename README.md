@@ -125,15 +125,65 @@ module.exports = {
 | layoutBy            | Group symboles in the sketch output by the "kind" or "group" key                                                                                                               | "kind" \| "group" | null                                                                                |
 | outputBy            | Write multiple sketch files by "kind" or the "group" key                                                                                                                       | "kind" \| "group" | null                                                                                |
 
-### Example story2sketch.config.js
+## Example configurations
+
+### Basic
+
+Automatically detect the stories, outputting two viewports for each story in a single Sketch file as symbols.
 
 ```js
 module.exports = {
   output: "dist/great-ui.asketch.json",
-  input: "dist/iframe.html",
-  layoutBy: "group",
-  concurrency: 2,
-  symbolGutter: 200,
+  input: "dist/iframe.html", // Same as default
+  pageTitle: "great-ui"
+};
+```
+
+### Manual stories
+
+Manually define stories to have granular control over what stories are output. This might help if you're getting empty output, since some stories may break story2sketch.
+
+```js
+module.exports = {
+  stories: [
+    {
+      kind: "Buttons/Button",
+      stories: [
+        {
+          name: "Button"
+        }
+      ]
+    },
+    {
+      kind: "Buttons/ButtonGroup",
+      stories: [
+        {
+          name: "Default",
+          displayName: "Horizontal"
+        },
+        {
+          name: "Vertical"
+        }
+      ]
+    },
+    {
+      kind: "Table",
+      stories: [
+        {
+          name: "Table"
+        }
+      ]
+    }
+  ]
+};
+```
+
+### Custom viewports
+
+Output symbols based on custom viewports:
+
+```js
+module.exports = {
   viewports: {
     narrow: {
       width: 320,
@@ -145,8 +195,39 @@ module.exports = {
       height: 1200,
       symbolPrefix: "Desktop/"
     }
-  },
-  pageTitle: "great-ui",
+  }
+};
+```
+
+### Output one file for each kind
+
+Outputs one file for each Storybook "kind". Useful if managing large component libraries, allowing you to distribute smaller files.
+
+```js
+module.exports = {
+  output: "dist", // Define output directory. File names are defined by "kind"
+  outputBy: "kind" // Also supports "group", see below.
+};
+```
+
+### Layout based on kind
+
+Renders the sketch layout by kind, but keeps them in one file.
+
+```js
+module.exports = {
+  layoutBy: "kind" // Also supports "group", see below.
+};
+```
+
+### Output one file for each custom group
+
+This example outputs two files based on a custom grouping: `dist/Buttons.asketch.json` and `dist/Data.asketch.json`.
+
+```js
+module.exports = {
+  output: "dist",
+  outputBy: "group",
   stories: [
     {
       group: "Buttons",
