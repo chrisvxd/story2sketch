@@ -4,7 +4,7 @@
 
 Convert [Storybook](https://storybook.js.org) stories into [Sketch](https://www.sketchapp.com) symbols.
 
-> Uses the amazing and experimental [`html-sketchapp`](https://github.com/brainly/html-sketchapp). Only supports web.
+> Uses the amazing [`html-sketchapp`](https://github.com/brainly/html-sketchapp). Only supports web.
 
 ## Quickstart
 
@@ -285,7 +285,7 @@ module.exports = {
 
 ### Why does my stuff look bad?
 
-Because this project is experimental, and so is it's [core dependency](https://github.com/brainly/html-sketchapp). If your stuff looks bad, either it's not supported by [`html-sketchapp`](https://github.com/brainly/html-sketchapp) yet (see [support here](https://github.com/brainly/html-sketchapp/wiki/What's-supported%3F)), or you need to [configure story2sketch](#configuration).
+If your stuff looks bad, either it's not supported by [`html-sketchapp`](https://github.com/brainly/html-sketchapp) yet (see [support here](https://github.com/brainly/html-sketchapp/wiki/What's-supported%3F)), or you need to [configure story2sketch](#configuration).
 
 ### Why don't you use `react-sketchapp` instead of `html-sketchapp`?
 
