@@ -1,5 +1,7 @@
 # story2sketch 💎
 
+[![NPM](https://img.shields.io/npm/v/story2sketch.svg)](https://www.npmjs.com/package/story2sketch) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
+
 Convert [Storybook](https://storybook.js.org) stories into [Sketch](https://www.sketchapp.com) symbols.
 
 > Uses the amazing and experimental [`html-sketchapp`](https://github.com/brainly/html-sketchapp). Only supports web.
