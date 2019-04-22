@@ -1,8 +1,10 @@
 # story2sketch 💎
 
+[![NPM](https://img.shields.io/npm/v/story2sketch.svg)](https://www.npmjs.com/package/story2sketch) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://prettier.io)
+
 Convert [Storybook](https://storybook.js.org) stories into [Sketch](https://www.sketchapp.com) symbols.
 
-> Uses the amazing and experimental [`html-sketchapp`](https://github.com/brainly/html-sketchapp). Only supports web.
+> Uses the amazing [`html-sketchapp`](https://github.com/brainly/html-sketchapp). Only supports web.
 
 ## Quickstart
 
@@ -108,44 +110,43 @@ module.exports = {
 
 ## API
 
-| Parameter           | Explanation                                                                                                                                                                    | Input Type    | Default                                                                             |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- | ----------------------------------------------------------------------------------- |
-| output              | Specifies the filename for the generated asketch.json file or a folder when outputBy === 'kind'.                                                                               | string        | `"dist/stories.asketch.json"`                                                       |
-| input               | The location of Storybook's generated iframe.html. Use this over `url` if possible for performance.                                                                            | string        | `"dist/iframe.html"`                                                                |
-| url                 | Storybook iframe URL. Will end in `iframe.html`. Prefer `input` for performance if possible.                                                                                   | string        | `"http://localhost:9001/iframe.html"`                                               |
-| stories             | Stories to extract from Storybook. You should probably override the default.                                                                                                   | object/string | `"all"`                                                                             |
-| concurrency         | Number of headless Chrome tabs to run in parallel. Drastically impacts performance.                                                                                            | integer       | `4`                                                                                 |
-| symbolGutter        | Gutter to place between symbols in Sketch.                                                                                                                                     | integer       | `100`                                                                               |
-| viewports           | Viewport configuration. Will be arranged left-to-right by width. Try to avoid changing the key, as this is used to identify the symbol.                                        | object        | Mobile viewport (320px wide) and desktop viewport (1920px wide). See example below. |
-| querySelector       | Query selector to select your node on each page. Uses `document.querySelectorAll`.                                                                                             | string        | `"#root"`                                                                           |
-| verbose             | Verbose logging output.                                                                                                                                                        | boolean       | `false`                                                                             |
-| fixPseudo           | Attempt to insert real elements in place of pseudo-elements                                                                                                                    | boolean       | `false`                                                                             |
-| puppeteerOptions    | Options to be passed directly to `puppeteer.launch`. See [puppeteer docs](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions) for usage. | object        | `{}`                                                                                |
-| removePreviewMargin | Remove preview margin from the iframe body.                                                                                                                                    | boolean       | `true`                                                                              |
-| layoutBy            | How to layout the stories. (values: 'kind')                                                                                                                                    | string        | null                                                                                |
-| outputBy            | How to output the stories (values: 'kind')                                                                                                                                     | string        | null                                                                                |
+| Parameter           | Explanation                                                                                                                                                                    | Input Type        | Default                                                                             |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- | ----------------------------------------------------------------------------------- |
+| output              | Specifies the filename for the generated asketch.json file or a folder when outputBy === 'kind'.                                                                               | string            | `"dist/stories.asketch.json"`                                                       |
+| input               | The location of Storybook's generated iframe.html. Use this over `url` if possible for performance.                                                                            | string            | `"dist/iframe.html"`                                                                |
+| url                 | Storybook iframe URL. Will end in `iframe.html`. Prefer `input` for performance if possible.                                                                                   | string            | `"http://localhost:9001/iframe.html"`                                               |
+| stories             | Stories to extract from Storybook. You should probably override the default.                                                                                                   | object/string     | `"all"`                                                                             |
+| concurrency         | Number of headless Chrome tabs to run in parallel. Drastically impacts performance.                                                                                            | integer           | `4`                                                                                 |
+| symbolGutter        | Gutter to place between symbols in Sketch.                                                                                                                                     | integer           | `100`                                                                               |
+| viewports           | Viewport configuration. Will be arranged left-to-right by width. Try to avoid changing the key, as this is used to identify the symbol.                                        | object            | Mobile viewport (320px wide) and desktop viewport (1920px wide). See example below. |
+| querySelector       | Query selector to select your node on each page. Uses `document.querySelectorAll`.                                                                                             | string            | `"#root"`                                                                           |
+| verbose             | Verbose logging output.                                                                                                                                                        | boolean           | `false`                                                                             |
+| fixPseudo           | Attempt to insert real elements in place of pseudo-elements                                                                                                                    | boolean           | `false`                                                                             |
+| puppeteerOptions    | Options to be passed directly to `puppeteer.launch`. See [puppeteer docs](https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions) for usage. | object            | `{}`                                                                                |
+| removePreviewMargin | Remove preview margin from the iframe body.                                                                                                                                    | boolean           | `true`                                                                              |
+| layoutBy            | Group symbols in the sketch output by the "kind" or "group" key                                                                                                                | "kind" \| "group" | null                                                                                |
+| outputBy            | Write multiple sketch files by "kind" or the "group" key                                                                                                                       | "kind" \| "group" | null                                                                                |
 
-### Example story2sketch.config.js
+## Example configurations
+
+### Basic
+
+Automatically detect the stories, outputting two viewports for each story in a single Sketch file as symbols.
 
 ```js
 module.exports = {
   output: "dist/great-ui.asketch.json",
-  input: "dist/iframe.html",
-  concurrency: 2,
-  symbolGutter: 200,
-  viewports: {
-    narrow: {
-      width: 320,
-      height: 1200,
-      symbolPrefix: "Mobile/"
-    },
-    standard: {
-      width: 1920,
-      height: 1200,
-      symbolPrefix: "Desktop/"
-    }
-  },
-  pageTitle: "great-ui",
+  input: "dist/iframe.html", // Same as default
+  pageTitle: "great-ui"
+};
+```
+
+### Manual stories
+
+Manually define stories to have granular control over what stories are output. This might help if you're getting empty output, since some stories may break story2sketch.
+
+```js
+module.exports = {
   stories: [
     {
       kind: "Buttons/Button",
@@ -179,6 +180,92 @@ module.exports = {
 };
 ```
 
+### Custom viewports
+
+Output symbols based on custom viewports:
+
+```js
+module.exports = {
+  viewports: {
+    narrow: {
+      width: 320,
+      height: 1200,
+      symbolPrefix: "Mobile/"
+    },
+    standard: {
+      width: 1920,
+      height: 1200,
+      symbolPrefix: "Desktop/"
+    }
+  }
+};
+```
+
+### Output one file for each kind
+
+Outputs one file for each Storybook "kind". Useful if managing large component libraries, allowing you to distribute smaller files.
+
+```js
+module.exports = {
+  output: "dist", // Define output directory. File names are defined by "kind"
+  outputBy: "kind" // Also supports "group", see below.
+};
+```
+
+### Layout based on kind
+
+Renders the sketch layout by kind, but keeps them in one file.
+
+```js
+module.exports = {
+  layoutBy: "kind" // Also supports "group", see below.
+};
+```
+
+### Output one file for each custom group
+
+This example outputs two files based on a custom grouping: `dist/Buttons.asketch.json` and `dist/Data.asketch.json`.
+
+```js
+module.exports = {
+  output: "dist",
+  outputBy: "group",
+  stories: [
+    {
+      group: "Buttons",
+      kind: "Buttons/Button",
+      stories: [
+        {
+          name: "Button"
+        }
+      ]
+    },
+    {
+      group: "Buttons",
+      kind: "Buttons/ButtonGroup",
+      stories: [
+        {
+          name: "Default",
+          displayName: "Horizontal"
+        },
+        {
+          name: "Vertical"
+        }
+      ]
+    },
+    {
+      group: "Data",
+      kind: "Table",
+      stories: [
+        {
+          name: "Table"
+        }
+      ]
+    }
+  ]
+};
+```
+
 ## Continuous Integration
 
 If you want `story2sketch` to run in a CI environment you might have to add the following configuration to puppeteer in your `story2sketch.config.js`.
@@ -198,7 +285,7 @@ module.exports = {
 
 ### Why does my stuff look bad?
 
-Because this project is experimental, and so is it's [core dependency](https://github.com/brainly/html-sketchapp). If your stuff looks bad, either it's not supported by [`html-sketchapp`](https://github.com/brainly/html-sketchapp) yet (see [support here](https://github.com/brainly/html-sketchapp/wiki/What's-supported%3F)), or you need to [configure story2sketch](#configuration).
+If your stuff looks bad, either it's not supported by [`html-sketchapp`](https://github.com/brainly/html-sketchapp) yet (see [support here](https://github.com/brainly/html-sketchapp/wiki/What's-supported%3F)), or you need to [configure story2sketch](#configuration).
 
 ### Why don't you use `react-sketchapp` instead of `html-sketchapp`?
 

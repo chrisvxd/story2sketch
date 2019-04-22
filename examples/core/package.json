@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "build-storybook -c .storybook -o dist",
-    "story2sketch": "yarn build && ../../lib/server/index.js --input dist/iframe.html --output example.asketch.json --fixPseudo",
+    "story2sketch": "yarn build && ../../lib/server/index.js",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

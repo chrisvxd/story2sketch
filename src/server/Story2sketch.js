@@ -67,7 +67,7 @@ export default class Story2sketch {
 
   reset() {
     this.symbolsByViewport = {};
-    this.symbolsByKind = {};
+    this.symbolsByGrouping = {};
     this.widestByViewport = {};
     this.tallestByStory = {};
     this.processedStories = 0;
@@ -136,16 +136,36 @@ export default class Story2sketch {
     return sketchPage;
   }
 
+  getGrouping({ group, kind }) {
+    let grouping = "all";
+
+    if (this.outputBy === "kind") {
+      grouping = kind;
+    } else if (this.outputBy === "group") {
+      grouping = group;
+    }
+
+    if (this.layoutBy === "kind") {
+      grouping = kind;
+    } else if (this.layoutBy === "group") {
+      grouping = group;
+    }
+
+    return grouping;
+  }
+
   async createPagePool() {
     const pagePool = new PagePool(this.browser, this.concurrency);
 
     await pagePool.init();
 
-    for (const { kind, stories } of this.stories) {
-      this.symbolsByKind[kind] = {};
+    for (const { group, kind, stories } of this.stories) {
+      const grouping = this.getGrouping({ group, kind });
+
+      this.symbolsByGrouping[grouping] = {};
 
       for (const { id } of this.sortedViewports) {
-        this.symbolsByKind[kind][id] = Array(stories.length);
+        this.symbolsByGrouping[grouping][id] = Array(stories.length);
       }
 
       for (const story of stories) {
@@ -174,7 +194,7 @@ export default class Story2sketch {
 
             // Assign by index to retain the order of the symbols
             this.symbolsByViewport[viewportKey][storyIndex] = symbol;
-            this.symbolsByKind[kind][viewportKey][storyIndex] = symbol;
+            this.symbolsByGrouping[grouping][viewportKey][storyIndex] = symbol;
           }
 
           this.tallestByStory[storyIndex] = tallest;
@@ -297,15 +317,17 @@ export default class Story2sketch {
     ];
   }
 
-  positionSymbolsByKind() {
+  positionSymbolsByGrouping() {
     const width = this.sortedViewports.reduce(
       (totalWidth, viewport) =>
         totalWidth + this.widestByViewport[viewport.id] + this.symbolGutter,
       0
     );
 
-    for (const [index, kind] of Object.keys(this.symbolsByKind).entries()) {
-      const symbolsByViewport = this.symbolsByKind[kind];
+    for (const [index, grouping] of Object.keys(
+      this.symbolsByGrouping
+    ).entries()) {
+      const symbolsByViewport = this.symbolsByGrouping[grouping];
 
       this.sketchPage.layers = [
         ...this.sketchPage.layers,
@@ -314,31 +336,28 @@ export default class Story2sketch {
     }
   }
 
-  writeByKind() {
+  writeByGrouping() {
     mkdirp(this.output);
 
-    for (const kind of Object.keys(this.symbolsByKind)) {
+    for (const grouping of Object.keys(this.symbolsByGrouping)) {
       const sketchPage = {
         ...this.sketchPage,
-        layers: this.positionSymbols(this.symbolsByKind[kind])
+        layers: this.positionSymbols(this.symbolsByGrouping[grouping])
       };
-      const filename = `${kind
+      const filename = `${grouping
         .replace(" ", "_")
         .replace("/", "+")}.asketch.json`;
 
-      fs.writeFileSync(
-        path.join(this.output, filename),
-        JSON.stringify(sketchPage)
+      const outputPath = path.join(this.output, filename);
+
+      fs.writeFileSync(outputPath, JSON.stringify(sketchPage));
+
+      console.log(
+        chalk.green(
+          `Wrote stories by ${this.outputBy} to ${chalk.white.bold(outputPath)}`
+        )
       );
     }
-
-    console.log(
-      chalk.green(
-        `Success! ${
-          this.processedStories
-        } stories written by kind to ${chalk.white.bold(this.output)}`
-      )
-    );
   }
 
   async execute() {
@@ -357,11 +376,11 @@ export default class Story2sketch {
       }
     });
 
-    if (this.outputBy === "kind") {
-      this.writeByKind();
+    if (this.outputBy) {
+      this.writeByGrouping();
     } else {
-      if (this.layoutBy === "kind") {
-        this.positionSymbolsByKind();
+      if (this.layoutBy) {
+        this.positionSymbolsByGrouping();
       } else {
         this.positionSymbolsByViewport();
       }
