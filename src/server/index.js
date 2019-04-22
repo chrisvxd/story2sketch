@@ -18,7 +18,6 @@ const tidyConfig = config => {
 
   newConfig.input = absolute(newConfig.input);
   newConfig.output = absolute(newConfig.output);
-  newConfig.outputBy = absolute(newConfig.outputBy);
 
   // Convert input file to URL if defined
   if (newConfig.input) {
