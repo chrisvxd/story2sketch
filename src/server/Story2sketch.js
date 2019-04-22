@@ -348,19 +348,16 @@ export default class Story2sketch {
         .replace(" ", "_")
         .replace("/", "+")}.asketch.json`;
 
-      fs.writeFileSync(
-        path.join(this.output, filename),
-        JSON.stringify(sketchPage)
+      const outputPath = path.join(this.output, filename);
+
+      fs.writeFileSync(outputPath, JSON.stringify(sketchPage));
+
+      console.log(
+        chalk.green(
+          `Wrote stories by ${this.outputBy} to ${chalk.white.bold(outputPath)}`
+        )
       );
     }
-
-    console.log(
-      chalk.green(
-        `Success! ${this.processedStories} stories written by ${
-          this.outputBy
-        } to ${chalk.white.bold(this.output)}`
-      )
-    );
   }
 
   async execute() {
