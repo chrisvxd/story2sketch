@@ -1,3 +1,14 @@
+<a name="1.5.0"></a>
+# [1.5.0](https://github.com/chrisvxd/story2sketch/compare/v1.4.0...v1.5.0) (2019-04-22)
+
+
+### Features
+
+* add support for grouping by symbols by "group" key ([f2a9ee0](https://github.com/chrisvxd/story2sketch/commit/f2a9ee0))
+* add support for outputting multiple files by kind, or laying out stories by kind ([6290cae](https://github.com/chrisvxd/story2sketch/commit/6290cae))
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/chrisvxd/story2sketch/compare/v1.3.1...v1.4.0) (2018-12-03)
 
