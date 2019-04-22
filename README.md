@@ -201,7 +201,7 @@ module.exports = {
 };
 ```
 
-### Output one file for each kind
+### Split output into multiple files based on kind
 
 Outputs one file for each Storybook "kind". Useful if managing large component libraries, allowing you to distribute smaller files.
 
@@ -222,7 +222,7 @@ module.exports = {
 };
 ```
 
-### Output one file for each custom group
+### Split output into multiple files based on custom group
 
 This example outputs two files based on a custom grouping: `dist/Buttons.asketch.json` and `dist/Data.asketch.json`.
 
