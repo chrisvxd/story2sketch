@@ -6,11 +6,12 @@ import path from "path";
 import mkdirp from "mkdirp";
 import chalk from "chalk";
 import ProgressBar from "progress";
+import os from "os";
 
 import getStorybook from "./getStorybook";
 import PagePool from "./PagePool.js";
 
-const defaultConcurrency = 4;
+const defaultConcurrency = os.cpus().length;
 const defaultSymbolGutter = 100;
 
 export default class Story2sketch {
