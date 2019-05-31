@@ -345,8 +345,8 @@ export default class Story2sketch {
         layers: this.positionSymbols(this.symbolsByGrouping[grouping])
       };
       const filename = `${grouping
-        .replace(" ", "_")
-        .replace("/", "+")}.asketch.json`;
+        .replace(/ /g, "_")
+        .replace(/\//g, "+")}.asketch.json`;
 
       const outputPath = path.join(this.output, filename);
 
