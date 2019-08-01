@@ -18,7 +18,11 @@ Install `story2sketch`:
 npm i story2sketch -g
 ```
 
-Run `story2sketch`, pointing towards a Storybook iframe URL. See [configuration](#configuration) for more options, or if you have a lot of stories.
+Run `story2sketch`, pointing towards a Storybook iframe URL. You can find an existing iframe URL in Storybook by clicking 'Open canvas in new tab':
+
+![Open canvas in new tab](https://i.imgur.com/Vo87WSM.png)
+
+See [configuration](#configuration) for more options, or if you have a lot of stories.
 
 ```sh
 story2sketch --url https://localhost:9001/iframe.html --output stories.asketch.json
