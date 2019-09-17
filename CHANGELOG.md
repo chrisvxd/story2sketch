@@ -1,3 +1,19 @@
+<a name="1.7.0"></a>
+# [1.7.0](https://github.com/chrisvxd/story2sketch/compare/v1.6.1...v1.7.0) (2019-09-17)
+
+
+### Bug Fixes
+
+* fix a bug where storybook without any stories runs forever ([1ff355e](https://github.com/chrisvxd/story2sketch/commit/1ff355e))
+
+
+### Features
+
+* upgrade to html-sketchapp@4.3.0 ([a453cda](https://github.com/chrisvxd/story2sketch/commit/a453cda))
+* use dynamic thread count for concurrency ([fbe3d79](https://github.com/chrisvxd/story2sketch/commit/fbe3d79))
+
+
+
 <a name="1.6.1"></a>
 ## [1.6.1](https://github.com/chrisvxd/story2sketch/compare/v1.6.0...v1.6.1) (2019-07-12)
 
