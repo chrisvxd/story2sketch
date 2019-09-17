@@ -44,6 +44,10 @@ export default class PagePool {
 
   execute() {
     return new Promise(resolve => {
+      if (this.fns.length === 0) {
+        return resolve();
+      }
+
       for (let i = 0; i < this.fns.length; i++) {
         const fn = this.fns[i];
 
