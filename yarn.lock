@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@brainly/html-sketchapp@^4.2.0":
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/@brainly/html-sketchapp/-/html-sketchapp-4.2.0.tgz#a50dee2b4ce34b32eaf6fd6af37b22e92d503912"
-  integrity sha512-Cbi73OcEohNggLfV9KWqJAYQyorGv/W6ZRgQ7DpCSJI6L2yBax16V79g6CZQP0s6CwQSKPFl+2BYp9YtpvpeEQ==
+"@brainly/html-sketchapp@^4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@brainly/html-sketchapp/-/html-sketchapp-4.3.0.tgz#070d64af95924aa2542a2ebe3ab0751e331e9b25"
+  integrity sha512-B5YivFRnKtIQ6aFmND+AG1y3wgGIN63ri+JmyQpn2Qupghof+hOamCTGyIyWrbjUzLA1YgbMhM+D2QhVu7kB8A==
   dependencies:
     murmur2js "^1.0.0"
     normalize-css-color "^1.0.2"
