@@ -4,7 +4,7 @@
 
 Convert [Storybook](https://storybook.js.org) stories into [Sketch](https://www.sketchapp.com) symbols.
 
-> Uses the amazing [`html-sketchapp`](https://github.com/brainly/html-sketchapp). Only supports web.
+> Uses the amazing [`html-sketchapp`](https://github.com/html-sketchapp/html-sketchapp). Only supports web.
 
 ## Quickstart
 
@@ -289,11 +289,11 @@ module.exports = {
 
 ### Why does my stuff look bad?
 
-If your stuff looks bad, either it's not supported by [`html-sketchapp`](https://github.com/brainly/html-sketchapp) yet (see [support here](https://github.com/brainly/html-sketchapp/wiki/What's-supported%3F)), or you need to [configure story2sketch](#configuration).
+If your stuff looks bad, either it's not supported by [`html-sketchapp`](https://github.com/html-sketchapp/html-sketchapp) yet (see [support here](https://github.com/html-sketchapp/html-sketchapp/wiki/What's-supported%3F)), or you need to [configure story2sketch](#configuration).
 
 ### Why don't you use `react-sketchapp` instead of `html-sketchapp`?
 
-[`react-sketchapp`](https://github.com/airbnb/react-sketchapp) only supports React Native, or forces you to use React Native component naming conventions. [`html-sketchapp`](https://github.com/brainly/html-sketchapp) supports good ol' fashioned HTML, and doesn't care what web framework you're using.
+[`react-sketchapp`](https://github.com/airbnb/react-sketchapp) only supports React Native, or forces you to use React Native component naming conventions. [`html-sketchapp`](https://github.com/html-sketchapp/html-sketchapp) supports good ol' fashioned HTML, and doesn't care what web framework you're using.
 
 ### Can I use this on anything other than Storybook?
 
