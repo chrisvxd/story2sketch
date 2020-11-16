@@ -36,7 +36,7 @@ Success!
 
 ### Storybook 3.x
 
-If you're using Storybook 3.3 or above (but not Storybook 4), you'll want to [take full control of your Storybook webpack.config.js](https://storybook.js.org/configurations/custom-webpack-config/#full-control-mode) if you haven't already done so, adding:
+If you're using Storybook 3.3 or above (but not Storybook 4 or above), you'll want to [take full control of your Storybook webpack.config.js](https://storybook.js.org/configurations/custom-webpack-config/#full-control-mode) if you haven't already done so, adding:
 
 ```js
 module.exports = (storybookBaseConfig, configType) => {
