@@ -1,3 +1,13 @@
+<a name="1.7.1"></a>
+## [1.7.1](https://github.com/chrisvxd/story2sketch/compare/v1.7.0...v1.7.1) (2020-11-16)
+
+
+### Bug Fixes
+
+* address skipped layers by updating html-sketchapp to 4.4.1 ([8ab4dc7](https://github.com/chrisvxd/story2sketch/commit/8ab4dc7))
+
+
+
 <a name="1.7.0"></a>
 # [1.7.0](https://github.com/chrisvxd/story2sketch/compare/v1.6.1...v1.7.0) (2019-09-17)
 
