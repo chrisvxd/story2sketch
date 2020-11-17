@@ -75,13 +75,18 @@ const fixPseudoElements = () => {
   }
 };
 
-const removeShowMainMargin = () => {
-  const head = document.head || document.getElementsByTagName("head")[0];
-  const style = document.createElement("style");
+const removeParentSpacing = node => {
+  // Loops through all parents, removing padding and margin
+  let currentParent = node.parentNode;
 
-  style.appendChild(document.createTextNode(".sb-show-main { margin: 0 }"));
+  while (currentParent) {
+    if (typeof currentParent.style !== "undefined") {
+      currentParent.style.margin = "0";
+      currentParent.style.padding = "0";
+    }
 
-  head.appendChild(style);
+    currentParent = currentParent.parentNode;
+  }
 };
 
 export const getSymbol = ({
@@ -104,12 +109,10 @@ export const getSymbol = ({
     return null;
   }
 
+  removeParentSpacing(nodes);
+
   if (fixPseudo) {
     fixPseudoElements();
-  }
-
-  if (removePreviewMargin) {
-    removeShowMainMargin();
   }
 
   const layer = nodeTreeToSketchGroup(nodes, {

@@ -2,20 +2,34 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 
 storiesOf("basic", module)
-  .add("with text", () => <div>Hello, world!</div>)
+  .add("with text", () => (
+    <div className="my-div" style={{ background: "hotpink", padding: 4 }}>
+      <div
+        className="my-div-inner"
+        style={{ background: "lightgray", padding: 4 }}
+      >
+        Hello, world!
+      </div>
+    </div>
+  ))
   .add("with pseudo element", () => (
-    <div>
+    <div className="my-div" style={{ background: "hotpink", padding: 4 }}>
       <style
         dangerouslySetInnerHTML={{
           __html: [
-            ".my-div:after {",
+            ".my-div-inner:after {",
             '  content: "🤖";',
             "  position: absolute",
             "}"
           ].join("\n")
         }}
       />
-      <div className="my-div">Hello, world!</div>
+      <div
+        className="my-div-inner"
+        style={{ background: "lightgray", padding: 4 }}
+      >
+        Hello, world!
+      </div>
     </div>
   ));
 
