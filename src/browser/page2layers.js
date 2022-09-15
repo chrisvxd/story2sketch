@@ -95,7 +95,7 @@ export const getSymbol = ({
   let nodes;
 
   if (querySelector === "#root") {
-    nodes = document.querySelector(querySelector).firstChild;
+    nodes = document.querySelector(querySelector).firstElementChild;
   } else {
     nodes = document.querySelector(querySelector);
   }
